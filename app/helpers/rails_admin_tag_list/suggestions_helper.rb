@@ -19,11 +19,15 @@ module RailsAdminTagList
         :order => { :name => :asc }
       }
       options = defaults.deep_merge(options)
-      model = field.abstract_model.model_name.constantize
-      tags_name = field.name.to_s.gsub(/_list/, '').to_sym
-      tags = model.tags_on(tags_name)
-      tags = sort_tags(tags, options[:order])
-      tags.map(&:name)
+
+      ActsAsTaggableOn::Tagging.find_all_by_taggable_type(field.abstract_model.model_name)
+                               .map(&:tag).map(&:name)
+
+      # model = field.abstract_model.model_name.constantize
+      # tags_name = field.name.to_s.gsub(/_list/, '').to_sym
+      # tags = model.tags_on(tags_name)
+      # tags = sort_tags(tags, options[:order])
+      # tags.map(&:name)
     end
 
     private

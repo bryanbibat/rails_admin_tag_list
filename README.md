@@ -1,9 +1,10 @@
 Introduction
 ============
 
-Greate [rails_admin](https://github.com/sferik/rails_admin) gem does not work with another great gem - [acts_as_taggable_on](https://github.com/mbleigh/acts-as-taggable-on), because rails_admin knows nothing about the virtual attributes *_list (tag_list, skill_list etc.), which created by acts_as_taggable_on for display and edit tags.
+Great [rails_admin](https://github.com/sferik/rails_admin) gem does not work with another great gem - [acts_as_taggable_on](https://github.com/mbleigh/acts-as-taggable-on), because rails_admin knows nothing about the virtual attributes *_list (tag_list, skill_list etc.), which created by acts_as_taggable_on for display and edit tags.
 
-This problem is solved with [rails_admin_tag_list](https://github.com/kryzhovnik/rails_admin_tag_list) gem.
+This problem is solved with [original rails_admin_tag_list](https://github.com/kryzhovnik/rails_admin_tag_list) gem.
+.. but not in my case.
 
 Installation
 ============
@@ -11,7 +12,8 @@ Installation
 In your `Gemfile`:
 
     gem 'rails_admin'
-    gem 'rails_admin_tag_list'
+    gem 'acts-as-taggable-on'
+    gem 'rails_admin_tag_list', github: 'kenjione/rails_admin_tag_list'
 
 and run:
 
@@ -43,13 +45,13 @@ There is your model:
 
 > `attr_accessible :tag_list, :skill_list`
 
-This gem comes with two tag field partial's named `form_tag_list` (default) and `tag_list_with_suggestions`. You can try the second one:
+This gem comes with two tag field partial's named `form_tag_list` (default) and `tag_list_with_autocomplete`. You can try the second one:
 
     RailsAdmin.config do |config|
       config.models do
         edit do
-          fields_of_type :tag_list do
-            partial 'tag_list_with_suggestions'
+          fields :tag_list do
+            partial 'tag_list_with_autocomplete'
           end
         end
       end
@@ -82,7 +84,7 @@ You can do with tag_list fields whatever what allows to do rails_admin:
       end
     end
 
-**reassing partial**
+**reassign partial**
 
     RailsAdmin.config do |config|
       config.model Player do
