@@ -20,8 +20,10 @@ module RailsAdminTagList
       }
       options = defaults.deep_merge(options)
 
-      ActsAsTaggableOn::Tagging.find_all_by_taggable_type(field.abstract_model.model_name)
-                               .map(&:tag).map(&:name)
+
+      ActsAsTaggableOn::Tagging.where(taggable_type: field.abstract_model.model_name)
+                               .map(&:tag).map(&:name) 
+      
 
       # model = field.abstract_model.model_name.constantize
       # tags_name = field.name.to_s.gsub(/_list/, '').to_sym
